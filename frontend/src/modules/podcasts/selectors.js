@@ -6,3 +6,6 @@ export const getAllPodcasts = state =>
 export const getFiltro = state =>
     getModuleState(state).getFiltro;
 
+export const getPodcastDetails = state =>
+    getModuleState(state).getPodcastsDetails;
+

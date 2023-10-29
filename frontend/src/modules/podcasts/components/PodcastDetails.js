@@ -4,13 +4,12 @@ import {useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import * as actions from "../actions";
 import Episodes from "./Episodes";
-import backend from "../../../backend";
 
 const PodcastDetails = () => {
 
     const getPodcasts = useSelector(selectors.getAllPodcasts);
+    const data = useSelector(selectors.getPodcastDetails)
     const [details, setDetails] = useState(null); // almacena el podcast.
-    const [data, setData] = useState(null); // almacena detalles del podcast.
     const [trackCount, setTrackCount] = useState(0); // almacena el número de episodios del podcast.
     const {id} = useParams();
     const dispatch = useDispatch();
@@ -19,7 +18,7 @@ const PodcastDetails = () => {
     useEffect(() => { // obtiene los podcast y almacena detalles del podcast.
         const fetchData = async () => {
             await dispatch(actions.getPodcasts(""));
-            await setData(backend.popularPodcasts.getPodcastData(id));
+            await dispatch(actions.getPodcastsDetails(id));
         };
         fetchData();
 
@@ -40,12 +39,8 @@ const PodcastDetails = () => {
     }, [getPodcasts]);
 
     useEffect(() => { // almacena los valores de los detalles de interés.
-        if (data != null) {
-            data.then(info => {
-                if (info != null && info.results) {
-                    setTrackCount(info.results[0].trackCount)
-                }
-            })
+        if (data != null && data.results) {
+            setTrackCount(data.results[0].trackCount)
         }
     }, [data])
 

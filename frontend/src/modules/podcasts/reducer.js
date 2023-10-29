@@ -3,7 +3,8 @@ import * as actionTypes from './actionTypes';
 
 const initialState = {
     getPodcasts: null,
-    getFiltro: null
+    getFiltro: null,
+    getPodcastsDetails: null
 };
 
 const getPodcasts = (state = initialState.getPodcasts, action) => {
@@ -28,9 +29,21 @@ const getFiltro = (state = initialState.getFiltro, action) => {
     }
 }
 
+const getPodcastsDetails = (state = initialState.getPodcastsDetails, action) => {
+    switch (action.type) {
+
+        case actionTypes.GET_PODCASTS_DETAILS_COMPLETED:
+            return action.getPodcastsDetails;
+
+        default:
+            return state;
+    }
+}
+
 const reducer = combineReducers({
     getPodcasts,
-    getFiltro
+    getFiltro,
+    getPodcastsDetails
 });
 
 export default reducer;

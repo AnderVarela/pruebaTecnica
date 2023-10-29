@@ -18,3 +18,14 @@ const changeFilterCompleted = getFiltro => ({
 });
 
 export const changeFilter = (filtro) => dispatch => dispatch(changeFilterCompleted(filtro));
+
+const getPodcastsDetailsCompleted = getPodcastsDetails => ({
+    type: actionTypes.GET_PODCASTS_DETAILS_COMPLETED,
+    getPodcastsDetails
+});
+
+export const getPodcastsDetails = (id) => async (dispatch) => {
+
+    dispatch(getPodcastsDetailsCompleted(await backend.popularPodcasts.getPodcastData(id)));
+
+}
