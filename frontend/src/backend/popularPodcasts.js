@@ -73,3 +73,19 @@ export async function filtrarPodcasts(textoABuscar) {
 
     return null;
 }
+
+
+export async function getPodcastData(podcastId) {
+    try {
+        const response = await fetch(`https://itunes.apple.com/lookup?id=${podcastId}`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok.');
+        }
+
+        const data = await response.json(); // Obtenemos directamente el JSON
+        return data;
+    } catch (error) {
+        console.error('Hubo un error al obtener los datos:', error);
+        return null;
+    }
+}

@@ -3,24 +3,29 @@ import * as selectors from "../selectors";
 import {useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import * as actions from "../actions";
+import Episodes from "./Episodes";
+import backend from "../../../backend";
 
 const PodcastDetails = () => {
 
     const getPodcasts = useSelector(selectors.getAllPodcasts);
     const [details, setDetails] = useState(null); // almacena el podcast.
+    const [data, setData] = useState(null); // almacena detalles del podcast.
+    const [trackCount, setTrackCount] = useState(0); // almacena el número de episodios del podcast.
     const {id} = useParams();
     const dispatch = useDispatch();
 
     // USE EFFECT--------------------------------------------------------------
-    useEffect(() => { // obtiene todos los podcast.
+    useEffect(() => { // obtiene los podcast y almacena detalles del podcast.
         const fetchData = async () => {
             await dispatch(actions.getPodcasts(""));
+            await setData(backend.popularPodcasts.getPodcastData(id));
         };
         fetchData();
 
     }, [dispatch]);
 
-    useEffect(() => { // almacena el podcast.
+    useEffect(() => { // almacena los detalles del podcast.
         if (getPodcasts != null) {
             for (let i = 0; i < getPodcasts.length; i++) {
                 const idt = getPodcasts[i].id.attributes['im:id'];
@@ -33,6 +38,16 @@ const PodcastDetails = () => {
         }
 
     }, [getPodcasts]);
+
+    useEffect(() => { // almacena los valores de los detalles de interés.
+        if (data != null) {
+            data.then(info => {
+                if (info != null && info.results) {
+                    setTrackCount(info.results[0].trackCount)
+                }
+            })
+        }
+    }, [data])
 
     // RETURN -----------------------------------------------------------------
     if (details == null) {
@@ -168,6 +183,9 @@ const PodcastDetails = () => {
                             </div>
                         </div>
                     </div>
+                </div>
+                <div style={{display: 'flex', flexDirection: 'column'}}>
+                    <Episodes episodes={trackCount}/>
                 </div>
             </div>
         )
