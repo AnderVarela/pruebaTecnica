@@ -23,6 +23,7 @@ const FilteredPosts = () => {
             <div className="search-bar">
 
                 <input
+                    id="filtro"
                     type="text"
                     placeholder="Filter podcasts..."
                     value={filter}
