@@ -49,3 +49,27 @@ export async function obtenerOActualizarLista() {
         }
     }
 }
+
+// Esta función filtra los podcasts por el texto ingresado
+export async function filtrarPodcasts(textoABuscar) {
+    const podcasts = await obtenerOActualizarLista();
+
+    if (!textoABuscar || textoABuscar.trim() === "") {
+        // Devolver todos los podcasts si textoABuscar es null o una cadena vacía
+        return (podcasts && podcasts.feed && podcasts.feed.entry) ? podcasts.feed.entry : null;
+    }
+
+    if (podcasts && podcasts.feed && podcasts.feed.entry) {
+        const podcastsFiltrados = podcasts.feed.entry.filter(podcast => {
+            const titulo = podcast['im:name']?.label.toLowerCase();
+            const nombreAutor = podcast['im:artist']?.label.toLowerCase();
+
+            // Verifica si el texto a buscar está incluido en el título o el nombre del autor
+            return (titulo.includes(textoABuscar.toLowerCase()) || nombreAutor.includes(textoABuscar.toLowerCase()));
+        });
+
+        return podcastsFiltrados;
+    }
+
+    return null;
+}

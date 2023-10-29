@@ -6,8 +6,15 @@ const getPodcastsCompleted = getPodcasts => ({
     getPodcasts
 });
 
-export const getPodcasts = () => async (dispatch) => {
+export const getPodcasts = (text) => async (dispatch) => {
 
-    dispatch(getPodcastsCompleted(await backend.popularPodcasts.obtenerOActualizarLista()));
+    dispatch(getPodcastsCompleted(await backend.popularPodcasts.filtrarPodcasts(text)));
 
 }
+
+const changeFilterCompleted = getFiltro => ({
+    type: actionTypes.CHANGE_FILTER,
+    getFiltro
+});
+
+export const changeFilter = (filtro) => dispatch => dispatch(changeFilterCompleted(filtro));
