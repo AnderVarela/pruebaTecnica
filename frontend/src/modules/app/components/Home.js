@@ -1,5 +1,9 @@
+import PodcastList from "../../podcasts/components/PodcastList";
+
 const Home = () => (
-    <p>Aquí va el componente Home.</p>
+    <div>
+        <PodcastList />
+    </div>
 );
 
 export default Home;

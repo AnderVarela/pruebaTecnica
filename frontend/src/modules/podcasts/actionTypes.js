@@ -1,0 +1,1 @@
+export const GET_PODCASTS_COMPLETED = "project/podcasts/getPodcastsCompleted";
