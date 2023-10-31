@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
 import backend from '../../backend';
+import {GET_EPISODES_COMPLETED} from "./actionTypes";
 
 const getPodcastsCompleted = getPodcasts => ({
     type: actionTypes.GET_PODCASTS_COMPLETED,
@@ -27,5 +28,16 @@ const getPodcastsDetailsCompleted = getPodcastsDetails => ({
 export const getPodcastsDetails = (id) => async (dispatch) => {
 
     dispatch(getPodcastsDetailsCompleted(await backend.popularPodcasts.getPodcastData(id)));
+
+}
+
+const getEpisodesCompleted = getEpisodes => ({
+    type: actionTypes.GET_EPISODES_COMPLETED,
+    getEpisodes
+});
+
+export const getEpisodes = (id) => async (dispatch) => {
+
+    dispatch(getEpisodesCompleted(await backend.popularPodcasts.getPodcastEpisodes(id)));
 
 }

@@ -9,3 +9,5 @@ export const getFiltro = state =>
 export const getPodcastDetails = state =>
     getModuleState(state).getPodcastsDetails;
 
+export const getEpisodes = state =>
+    getModuleState(state).getEpisodes;

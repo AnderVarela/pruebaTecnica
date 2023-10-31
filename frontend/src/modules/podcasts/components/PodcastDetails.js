@@ -4,49 +4,29 @@ import {useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import * as actions from "../actions";
 import Episodes from "./Episodes";
+import EpisodesList from "./EpisodesList";
 
 const PodcastDetails = () => {
 
-    const getPodcasts = useSelector(selectors.getAllPodcasts);
-    const data = useSelector(selectors.getPodcastDetails)
-    const [details, setDetails] = useState(null); // almacena el podcast.
-    const [trackCount, setTrackCount] = useState(0); // almacena el número de episodios del podcast.
+    const data = useSelector(selectors.getPodcastDetails);
+    const episodes = useSelector(selectors.getEpisodes)
     const {id} = useParams();
     const dispatch = useDispatch();
 
     // USE EFFECT--------------------------------------------------------------
-    useEffect(() => { // obtiene los podcast y almacena detalles del podcast.
+    useEffect(() => { // obtiene el podcast
         const fetchData = async () => {
-            await dispatch(actions.getPodcasts(""));
             await dispatch(actions.getPodcastsDetails(id));
+            await dispatch(actions.getEpisodes(id));
         };
         fetchData();
 
-    }, [dispatch]);
+    }, [id]);
 
-    useEffect(() => { // almacena los detalles del podcast.
-        if (getPodcasts != null) {
-            for (let i = 0; i < getPodcasts.length; i++) {
-                const idt = getPodcasts[i].id.attributes['im:id'];
-
-                if (idt === id) {
-                    setDetails(getPodcasts[i])
-                    break;
-                }
-            }
-        }
-
-    }, [getPodcasts]);
-
-    useEffect(() => { // almacena los valores de los detalles de interés.
-        if (data != null && data.results) {
-            setTrackCount(data.results[0].trackCount)
-        }
-    }, [data])
 
     // RETURN -----------------------------------------------------------------
-    if (details == null) {
-        return <div>Error de conexión</div>
+    if (data == null || !data.results || episodes == null || !episodes.resultCount) {
+        return <div>Cargando...</div>
     } else {
         return (
             <div style={{display: 'flex'}}>
@@ -84,8 +64,9 @@ const PodcastDetails = () => {
                         display: 'inline-flex'
                     }}>
 
+
                         <img style={{width: 150, height: 150, borderRadius: 5}}
-                             src={details['im:image'][2].label}/>
+                             src={data.results[0].artworkUrl600}/>
                         <div style={{
                             alignSelf: 'stretch',
                             height: 92,
@@ -112,7 +93,7 @@ const PodcastDetails = () => {
                                     fontFamily: 'Balsamiq Sans',
                                     fontWeight: '400',
                                     wordWrap: 'break-word'
-                                }}>{details['im:name'].label}</div>
+                                }}>{data.results[0].collectionName}</div>
                             </div>
                             <div style={{
                                 alignSelf: 'stretch',
@@ -129,7 +110,7 @@ const PodcastDetails = () => {
                                     fontFamily: 'Balsamiq Sans',
                                     fontWeight: '400',
                                     wordWrap: 'break-word'
-                                }}>{details['im:artist'].label}</div>
+                                }}>{data.results[0].artistName}</div>
                             </div>
                         </div>
                         <div style={{
@@ -174,13 +155,18 @@ const PodcastDetails = () => {
                                     fontFamily: 'Balsamiq Sans',
                                     fontWeight: '400',
                                     wordWrap: 'break-word'
-                                }}>{details['summary'].label}</div>
+                                }}>
+                                    {data.results[0].shortDescription}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div style={{display: 'flex', flexDirection: 'column'}}>
-                    <Episodes episodes={trackCount}/>
+                    <Episodes episodes={episodes.resultCount - 1}/>
+                </div>
+                <div>
+                    <EpisodesList/>
                 </div>
             </div>
         )

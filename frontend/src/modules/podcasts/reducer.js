@@ -1,10 +1,12 @@
-import { combineReducers } from 'redux';
+import {combineReducers} from 'redux';
 import * as actionTypes from './actionTypes';
+import {GET_EPISODES_COMPLETED} from "./actionTypes";
 
 const initialState = {
     getPodcasts: null,
     getFiltro: null,
-    getPodcastsDetails: null
+    getPodcastsDetails: null,
+    getEpisodes: null
 };
 
 const getPodcasts = (state = initialState.getPodcasts, action) => {
@@ -40,10 +42,22 @@ const getPodcastsDetails = (state = initialState.getPodcastsDetails, action) => 
     }
 }
 
+const getEpisodes = (state = initialState.getEpisodes, action) => {
+    switch (action.type) {
+
+        case actionTypes.GET_EPISODES_COMPLETED:
+            return action.getEpisodes;
+
+        default:
+            return state;
+    }
+}
+
 const reducer = combineReducers({
     getPodcasts,
     getFiltro,
-    getPodcastsDetails
+    getPodcastsDetails,
+    getEpisodes
 });
 
 export default reducer;

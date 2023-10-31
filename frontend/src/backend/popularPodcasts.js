@@ -89,3 +89,19 @@ export async function getPodcastData(podcastId) {
         return null;
     }
 }
+
+
+export async function getPodcastEpisodes(podcastId) {
+    try {
+        const response = await fetch(`https://itunes.apple.com/lookup?id=${podcastId}&entity=podcastEpisode`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok.');
+        }
+
+        const data = await response.json(); // Obtenemos directamente el JSON
+        return data;
+    } catch (error) {
+        console.error('Hubo un error al obtener los datos:', error);
+        return null;
+    }
+}
