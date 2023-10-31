@@ -162,9 +162,6 @@ const PodcastDetails = () => {
                         </div>
                     </div>
                 </div>
-                <div style={{display: 'flex', flexDirection: 'column'}}>
-                    <Episodes episodes={episodes.resultCount - 1}/>
-                </div>
                 <div>
                     <EpisodesList/>
                 </div>
