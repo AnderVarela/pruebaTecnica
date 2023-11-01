@@ -42,7 +42,6 @@ export async function obtenerOActualizarLista() {
         if (newData) {
             localStorage.setItem('podcastsData', JSON.stringify(newData));
             localStorage.setItem('lastFetchDate', new Date().toISOString());
-            jsonObject = newData;
             return newData;
         }
     }
@@ -75,17 +74,47 @@ export async function filtrarPodcasts(textoABuscar) {
 
 export async function getPodcastData(podcastId) {
     try {
+        const storedData = localStorage.getItem(`podcast_${podcastId}`);
+
+        if (storedData) {
+            const parsedData = JSON.parse(storedData);
+            const storedTimestamp = parsedData.timestamp;
+            const storedPodcastData = parsedData.data;
+
+            // Comprobar si ha pasado un día desde la última solicitud
+            const lastFetchedTime = new Date(storedTimestamp);
+            const currentTime = new Date();
+            const oneDay = 24 * 60 * 60 * 1000; // Un día en milisegundos
+
+            if (currentTime - lastFetchedTime < oneDay) {
+                // Si ha pasado menos de un día, devolver los datos almacenados
+                console.log("data obtenida de memoria local")
+                return storedPodcastData;
+            }
+        }
+
         const response = await fetch(`https://itunes.apple.com/lookup?id=${podcastId}`);
         if (!response.ok) {
             throw new Error('Network response was not ok.');
         }
 
         const data = await response.json(); // Obtenemos directamente el JSON
+
+        // Guardar los datos y la marca de tiempo en localStorage
+        const dataToStore = {
+            timestamp: new Date().getTime(),
+            data: data
+        };
+
+        localStorage.setItem(`podcast_${podcastId}`, JSON.stringify(dataToStore));
+
+        console.log("data obtenida de servidor externo")
         return data;
     } catch (error) {
         return null;
     }
 }
+
 
 
 export async function getPodcastEpisodes(podcastId) {

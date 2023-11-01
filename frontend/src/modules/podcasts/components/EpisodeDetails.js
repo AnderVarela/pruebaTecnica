@@ -61,9 +61,7 @@ const Episodes = ({ title, description, mp3 }) => {
                 </div>
             </div>
             <div style={sectionStyle}>
-                <div style={descriptionStyle}>
-                    {description}
-                </div>
+                <div style={descriptionStyle} dangerouslySetInnerHTML={{ __html: description }}></div>
             </div>
             <div style={sectionStyle}>
                 <div style={mp3Style}>
