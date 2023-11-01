@@ -1,173 +1,150 @@
-import {useDispatch, useSelector} from "react-redux";
-import * as selectors from "../selectors";
-import {useParams} from "react-router-dom";
-import React, {useEffect, useState} from "react";
-import * as actions from "../actions";
-import Episodes from "./Episodes";
-import EpisodesList from "./EpisodesList";
+import {useNavigate} from "react-router-dom";
+import {useState} from "react";
 
-const PodcastDetails = () => {
+const PodcastDetails = ({ imagen, nombre, artista, descripcion, podcastId }) => {
 
-    const data = useSelector(selectors.getPodcastDetails);
-    const episodes = useSelector(selectors.getEpisodes)
-    const {id} = useParams();
-    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const handleClick = () => {
+        if (podcastId != null)
+            navigate(`/podcast/${podcastId}`);
+    }
 
-    // USE EFFECT--------------------------------------------------------------
-    useEffect(() => { // obtiene el podcast
-        const fetchData = async () => {
-            await dispatch(actions.getPodcastsDetails(id));
-            await dispatch(actions.getEpisodes(id));
-        };
-        fetchData();
 
-    }, [id]);
+    // ESTILOS ----------------------------------------------------------------
+    const containerStyle = {
+        width: '50%',
+        height: '50%',
+        paddingTop: 34,
+        paddingBottom: 18,
+        paddingLeft: 16,
+        paddingRight: 16,
+        background: 'white',
+        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+        borderRadius: 15,
+        overflow: 'hidden',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        gap: 16,
+        display: 'inline-flex'
+    };
+
+    const imageStyle = {
+        alignSelf: 'stretch',
+        flex: '1 1 0',
+        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+        borderRadius: 5
+    };
+
+    const titleAuthorContainerStyle = {
+        alignSelf: 'stretch',
+        height: '100%',
+        width: '100%',
+        paddingLeft: 8,
+        paddingRight: 8,
+        borderTop: '1px #727272 solid',
+        borderBottom: '1px #727272 solid',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        display: 'flex'
+    };
+
+    const titleStyle = {
+        alignSelf: 'stretch',
+        padding: 10,
+        justifyContent: 'left',
+        alignItems: 'center',
+        gap: 10,
+        display: 'inline-flex',
+        flex: '1 1 0',
+        color: 'black',
+        fontSize: 20,
+        fontFamily: 'Arial',
+        fontWeight: '700',
+        wordWrap: 'break-word'
+    };
+
+    const authorStyle = {
+        alignSelf: 'stretch',
+        padding: 10,
+        justifyContent: 'left',
+        alignItems: 'center',
+        gap: 10,
+        display: 'inline-flex',
+        flex: '1 1 0',
+        color: 'black',
+        fontSize: 16,
+        fontFamily: 'Arial',
+        fontWeight: '400',
+        wordWrap: 'break-word'
+    };
+
+    const descriptionContainerStyle = {
+        alignSelf: 'stretch',
+        height: '100%',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        display: 'flex'
+    };
+
+    const descriptionTitleStyle = {
+        alignSelf: 'stretch',
+        padding: 10,
+        justifyContent: 'left',
+        alignItems: 'center',
+        gap: 10,
+        display: 'inline-flex',
+        flex: '1 1 0',
+        color: 'black',
+        fontSize: 18,
+        fontFamily: 'Arial',
+        fontWeight: '700',
+        wordWrap: 'break-word'
+    };
+
+    const descriptionContentStyle = {
+        alignSelf: 'stretch',
+        padding: 10,
+        justifyContent: 'left',
+        alignItems: 'center',
+        gap: 10,
+        display: 'inline-flex',
+        flex: '1 1 0',
+        color: 'black',
+        fontSize: 14,
+        fontFamily: 'Arial',
+        fontWeight: '400',
+        wordWrap: 'break-word'
+    };
 
 
     // RETURN -----------------------------------------------------------------
-    if (data == null || !data.results || episodes == null || !episodes.resultCount) {
-        return <div>Cargando...</div>
-    } else {
-        return (
-            <div style={{display: 'flex'}}>
-                <div style={{
-                    width: 286,
-                    height: 469,
-                    paddingLeft: 8,
-                    paddingRight: 8,
-                    paddingTop: 18,
-                    paddingBottom: 18,
-                    background: 'white',
-                    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-                    borderRadius: 15,
-                    overflow: 'hidden',
-                    flexDirection: 'column',
-                    justifyContent: 'flex-start',
-                    alignItems: 'center',
-                    gap: 16,
-                    display: 'inline-flex'
-                }}>
-                    <div style={{
-                        width: 286,
-                        height: 469,
-                        paddingLeft: 8,
-                        paddingRight: 8,
-                        paddingTop: 18,
-                        paddingBottom: 18,
-                        background: 'white',
-                        borderRadius: 15,
-                        overflow: 'hidden',
-                        flexDirection: 'column',
-                        justifyContent: 'flex-start',
-                        alignItems: 'center',
-                        gap: 16,
-                        display: 'inline-flex'
-                    }}>
+    return (
+        <div className="Podcastdetails" style={containerStyle}
+             onClick={() => handleClick()}>
 
-
-                        <img style={{width: 150, height: 150, borderRadius: 5}}
-                             src={data.results[0].artworkUrl600}/>
-                        <div style={{
-                            alignSelf: 'stretch',
-                            height: 92,
-                            borderTop: '1px black solid',
-                            borderBottom: '1px black solid',
-                            flexDirection: 'column',
-                            justifyContent: 'flex-start',
-                            alignItems: 'center',
-                            display: 'flex'
-                        }}>
-                            <div style={{
-                                alignSelf: 'stretch',
-                                height: 46,
-                                padding: 10,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                gap: 10,
-                                display: 'inline-flex'
-                            }}>
-                                <div style={{
-                                    flex: '1 1 0',
-                                    color: 'black',
-                                    fontSize: 20,
-                                    fontFamily: 'Balsamiq Sans',
-                                    fontWeight: '400',
-                                    wordWrap: 'break-word'
-                                }}>{data.results[0].collectionName}</div>
-                            </div>
-                            <div style={{
-                                alignSelf: 'stretch',
-                                padding: 10,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                gap: 10,
-                                display: 'inline-flex'
-                            }}>
-                                <div style={{
-                                    flex: '1 1 0',
-                                    color: 'black',
-                                    fontSize: 16,
-                                    fontFamily: 'Balsamiq Sans',
-                                    fontWeight: '400',
-                                    wordWrap: 'break-word'
-                                }}>{data.results[0].artistName}</div>
-                            </div>
-                        </div>
-                        <div style={{
-                            alignSelf: 'stretch',
-                            height: 159,
-                            flexDirection: 'column',
-                            justifyContent: 'flex-start',
-                            alignItems: 'center',
-                            display: 'flex'
-                        }}>
-                            <div style={{
-                                alignSelf: 'stretch',
-                                padding: 10,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                gap: 10,
-                                display: 'inline-flex'
-                            }}>
-                                <div style={{
-                                    flex: '1 1 0',
-                                    color: 'black',
-                                    fontSize: 20,
-                                    fontFamily: 'Balsamiq Sans',
-                                    fontWeight: '400',
-                                    wordWrap: 'break-word'
-                                }}>Description:
-                                </div>
-                            </div>
-                            <div style={{
-                                alignSelf: 'stretch',
-                                flex: '1 1 0',
-                                padding: 10,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                gap: 10,
-                                display: 'inline-flex'
-                            }}>
-                                <div style={{
-                                    flex: '1 1 0',
-                                    color: 'black',
-                                    fontSize: 14,
-                                    fontFamily: 'Balsamiq Sans',
-                                    fontWeight: '400',
-                                    wordWrap: 'break-word'
-                                }}>
-                                    {data.results[0].shortDescription}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <img className="Imagen" style={imageStyle} src={imagen} />
+            <div className="TitleAuthor" style={titleAuthorContainerStyle}>
+                <div className="Title" style={titleStyle}>
+                    {nombre}
                 </div>
-                <div>
-                    <EpisodesList/>
+                <div className="Author" style={authorStyle}>
+                    {artista}
                 </div>
             </div>
-        )
-    }
+            <div className="Description" style={descriptionContainerStyle}>
+                <div className="Frame6" style={descriptionTitleStyle}>
+                    Description:
+                </div>
+                <div className="Frame7" style={descriptionContentStyle}>
+                    {descripcion}
+                </div>
+            </div>
+
+        </div>
+    );
 };
 
 export default PodcastDetails;

@@ -1,7 +1,7 @@
 import {Route, Routes} from 'react-router-dom';
 import Home from "./Home";
-import PodcastDetails from "../../podcasts/components/PodcastDetails";
-import TemporalComponent from "./TemporalComponent";
+import DetallesDeUnPodcast from "./DetallesDeUnPodcast";
+import DetallesDeUnEpisodio from "./DetallesDeUnEpisodio";
 
 
 const Body = () => {
@@ -12,8 +12,8 @@ const Body = () => {
             <br/>
             <Routes>
                 <Route path="/*" element={<Home/>}/>
-                <Route path="/podcast/:id" element={<PodcastDetails/>}/>
-                <Route path="/podcast/:idd/episode/:episodeId" element={<TemporalComponent/>}/>
+                <Route path="/podcast/:id" element={<DetallesDeUnPodcast/>}/>
+                <Route path="/podcast/:podcastId/episode/:episodeId" element={<DetallesDeUnEpisodio/>}/>
             </Routes>
         </div>
 

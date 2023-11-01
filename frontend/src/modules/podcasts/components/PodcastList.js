@@ -1,9 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import Podcast from "./Podcast";
 import {useDispatch, useSelector} from "react-redux";
 import * as selectors from '../selectors';
 import * as actions from "../actions";
 import {useNavigate} from "react-router-dom";
+import ComponentWithSpinner from "../../common/components/Spinner";
 
 function PodcastList() {
     const filtro = useSelector(selectors.getFiltro);
@@ -27,43 +28,44 @@ function PodcastList() {
         navigate(`/podcast/${id}`);
     }
 
+    // ESTILOS ----------------------------------------------------------------
+    const listStyles = {
+        listStyle: 'none',
+        padding: 0,
+        margin: 0,
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        gap: 24,
+        display: 'inline-flex',
+        flexWrap: 'wrap',
+        width: '100%',
+        height: '100%'
+    };
+
+    const elementStyles = {
+        marginBottom: 50
+    };
+
 
     // RETURN -----------------------------------------------------------------
     if (getPodcasts == null) {
-        return <div>Error de conexión</div>
+        return <ComponentWithSpinner/>
     } else {
         return (
-            <div>
-                <ul style={listStyle}>
+                <ul style={listStyles}>
                     {getPodcasts.map((podcast, index) => (
-
-                        <li key={index} style={listItemStyle}
+                        <li key={index} style={elementStyles}
                             onClick={() => handleClick(podcast.id.attributes['im:id'])}>
-                            <Podcast name={podcast['im:name'].label} author={podcast['im:artist'].label}
-                                     image={podcast['im:image'][0].label}/>
+                            <Podcast
+                                name={podcast['im:name'].label}
+                                author={podcast['im:artist'].label}
+                                image={podcast['im:image'][0].label}
+                            />
                         </li>
                     ))}
                 </ul>
-            </div>)
+        )
     }
 }
 
 export default PodcastList;
-
-
-// ESTILOS --------------------------------------------------------------------
-const listStyle = {
-    listStyle: 'none',
-    padding: 0,
-    margin: 0,
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    fontFamily: 'Arial, sans-serif',
-};
-
-const listItemStyle = {
-    width: '200px',
-    padding: '40px',
-    margin: '10px',
-};

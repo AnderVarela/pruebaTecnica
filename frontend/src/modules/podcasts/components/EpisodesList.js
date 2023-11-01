@@ -1,150 +1,126 @@
-import React, {useState, useEffect} from 'react';
+import {useNavigate} from "react-router-dom";
+import moment from "moment";
 
-import {useDispatch, useSelector} from "react-redux";
-import * as selectors from '../selectors';
-import * as actions from "../actions";
-import {useNavigate, useParams} from "react-router-dom";
-import Episodes from "./Episodes";
+const EpisodesList = (episodes) => {
 
-
-function EpisodesList() {
-    const episodes = useSelector(selectors.getEpisodes)
-    const {id} = useParams();
     const navigate = useNavigate();
-    const dispatch = useDispatch();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            await dispatch(actions.getEpisodes(id));
-        };
 
-        fetchData();
-    }, [id]);
-
-    const handleClick = (idd, episodeId) => {
-        navigate(`/podcast/${idd}/episode/${episodeId}`);
+    // FUNCIONES AUXILIARES ---------------------------------------------------
+    const handleClick = (podcastId, episodeId) => {
+        navigate(`/podcast/${podcastId}/episode/${episodeId}`);
     }
 
     const MilisegundosAMinutos = (milisegundos) => {
         if (milisegundos == null)
             return "00:00"
-        // Calcula los minutos y los segundos
-        const minutos = Math.floor(milisegundos / 60000); // 1 minuto = 60000 ms
-        const segundos = ((milisegundos % 60000) / 1000).toFixed(0); // Resto convertido a segundos
 
-        // Formatea el resultado con 2 dígitos para los segundos (si es necesario)
+        const minutos = Math.floor(milisegundos / 60000);
+        const segundos = ((milisegundos % 60000) / 1000).toFixed(0);
+        const minutosFormateados = (minutos < 10) ? '0' + minutos : minutos;
         const segundosFormateados = (segundos < 10) ? '0' + segundos : segundos;
 
         // Devuelve el resultado en el formato 'minutos:segundos'
-        return `${minutos}:${segundosFormateados}`;
+        return `${minutosFormateados}:${segundosFormateados}`;
     }
 
-    if (!episodes || !episodes.results) {
-        return <div>Cargando...</div>;
-    } else {
+
+    // ESTILOS ----------------------------------------------------------------
+    const containerStyle = {
+        width: '100%',
+        height: '100%',
+        borderRadius: 5,
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        gap: 4,
+        display: 'inline-flex'
+    };
+
+    const ulStyle = {
+        listStyleType: 'none',
+        padding: 0,
+        margin: 0,
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        width: '100%',
+        height: '100%'
+    };
+
+    const episodeElementStyle = {
+        width: '100%',
+        height: '100%',
+        background: 'white',
+        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+        borderRadius: 5,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        gap: 4,
+        display: 'inline-flex'
+    };
+
+    const titleStyle = {
+        flex: '1 1 0',
+        height: '100%',
+        padding: 10,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        gap: 10,
+        display: 'flex',
+        color: 'black',
+        fontSize: 14,
+        fontFamily: 'Arial',
+        fontWeight: '400',
+        wordWrap: 'break-word'
+    };
+
+    const dateDurationStyle = {
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        display: 'flex',
+        gap: 32
+    };
+
+    const dateStyle = {
+        padding: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 10,
+        display: 'flex',
+        color: 'black',
+        fontSize: 14,
+        fontFamily: 'Arial',
+        fontWeight: '400',
+        wordWrap: 'break-word'
+    };
+
+
+    // RETURN -----------------------------------------------------------------
         return (
-            <div>
-                <div style={{display: 'flex', flexDirection: 'column'}}>
-                    <Episodes episodes={episodes.resultCount - 1}/>
-                </div>
-                <div
-                    style={{
-                        background: 'white',
-                        minHeight: 'auto',
-                        minWidth: 'auto',
-                        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-                        borderRadius: 15,
-                        alignItems: 'center',
-                        paddingLeft: 8,
-                        paddingRight: 8,
-                        paddingTop: 18,
-                        paddingBottom: 18,
-
-                    }}>
-                    <ul style={{listStyleType: 'none'}}>
-                        {episodes.results
-                            .filter((episode, index) => index !== 0) // Quita el primer elemento
-                            .map((episode, index) => (
-                                <li
-                                    key={index}
-                                    onClick={() => handleClick(episode.collectionId, episode.trackId)}
-                                >
-                                    <div
-                                        style={{
-                                            width: 620,
-                                            background: 'white',
-                                            borderTop: '1px black solid',
-                                            justifyContent: 'flex-start',
-                                            alignItems: 'center',
-                                            gap: 4,
-                                            display: 'inline-flex',
-                                            minHeight: 'auto'
-                                        }}
-                                    >
-                                        <div
-                                            style={{
-                                                flex: '1 1 0',
-                                                padding: 10,
-                                                justifyContent: 'flex-start',
-                                                alignItems: 'center',
-                                                gap: 10,
-                                                display: 'flex'
-                                            }}
-                                        >
-                                            <div
-                                                style={{
-                                                    color: 'black',
-                                                    fontSize: 14,
-                                                    fontFamily: 'Balsamiq Sans',
-                                                    fontWeight: '400',
-                                                    wordWrap: 'break-word'
-                                                }}
-                                            >
-                                                {episode.trackName}
-                                            </div>
-                                        </div>
-                                        <div style={{justifyContent: 'flex-end', alignItems: 'center', display: 'flex'}}>
-                                            <div style={{
-                                                padding: 10,
-                                                justifyContent: 'center',
-                                                alignItems: 'center',
-                                                gap: 10,
-                                                display: 'flex'
-                                            }}>
-                                                <div style={{
-                                                    color: 'black',
-                                                    fontSize: 14,
-                                                    fontFamily: 'Balsamiq Sans',
-                                                    fontWeight: '400',
-                                                    wordWrap: 'break-word'
-                                                }}>{episode.releaseDate}</div>
-                                            </div>
-                                            <div style={{
-                                                padding: 10,
-                                                justifyContent: 'center',
-                                                alignItems: 'center',
-                                                gap: 10,
-                                                display: 'flex'
-                                            }}>
-                                                <div style={{
-                                                    color: 'black',
-                                                    fontSize: 14,
-                                                    fontFamily: 'Balsamiq Sans',
-                                                    fontWeight: '400',
-                                                    wordWrap: 'break-word'
-                                                }}>{MilisegundosAMinutos(episode.trackTimeMillis)}</div>
-                                            </div>
-                                        </div>
+            <div className="Componentelistepisodes" style={containerStyle}>
+                <ul style={ulStyle}>
+                    {episodes.episodes.map((episode, index) => (
+                        <li key={index} style={{ marginBottom: 4 }}
+                            onClick={() => handleClick(episode.collectionId, episode.trackId)}>
+                            <div className="Elementepisodelist" style={episodeElementStyle}>
+                                <div className="Title" style={titleStyle}>
+                                    {episode.trackName}
+                                </div>
+                                <div className="Dateduration" style={dateDurationStyle}>
+                                    <div className="Date" style={dateStyle}>
+                                        {moment(episode.releaseDate).format('DD/MM/YYYY')}
                                     </div>
-                                </li>
-                            ))}
-                    </ul>
-                </div>
+                                    <div className="Duration" style={dateStyle}>
+                                        {MilisegundosAMinutos(episode.trackTimeMillis)}
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
             </div>
-
         );
 
-    }
 }
 
 export default EpisodesList;
