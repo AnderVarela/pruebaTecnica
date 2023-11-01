@@ -1,5 +1,6 @@
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
+import {FormattedMessage} from "react-intl";
 
 const PodcastDetails = ({ imagen, nombre, artista, descripcion, podcastId }) => {
 
@@ -136,7 +137,7 @@ const PodcastDetails = ({ imagen, nombre, artista, descripcion, podcastId }) => 
             </div>
             <div className="Description" style={descriptionContainerStyle}>
                 <div className="Frame6" style={descriptionTitleStyle}>
-                    Description:
+                    <FormattedMessage id="project.podcasts.PodcastDetails.text"/>
                 </div>
                 <div className="Frame7" style={descriptionContentStyle}>
                     {descripcion}

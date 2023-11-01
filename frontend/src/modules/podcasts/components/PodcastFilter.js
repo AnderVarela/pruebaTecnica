@@ -1,11 +1,15 @@
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
 import * as actions from '../actions';
+import { useIntl } from 'react-intl';
+
 
 
 const FilteredPosts = () => {
     const [filter, setFilter] = useState('');
     const dispatch = useDispatch();
+    const intl = useIntl();
+    const placeholder = intl.formatMessage({ id: 'project.podcasts.PodcastFilter.text' });
 
     // FUNCIONES AUXILIARES ---------------------------------------------------
     const handleSearch = () => { // actualiza el filtro, que al actualizarse, se actualiza la lista de podcast.
@@ -51,7 +55,7 @@ const FilteredPosts = () => {
                 id="filtro"
                 type="text"
                 style={styles.inputField}
-                placeholder="Filter podcasts..."
+                placeholder={placeholder}
                 value={filter}
                 onChange={(e) => setFilter(e.target.value)}
                 onKeyDown={handleKeyDown}

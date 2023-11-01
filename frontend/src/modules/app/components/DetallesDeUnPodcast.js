@@ -7,6 +7,7 @@ import {useParams} from "react-router-dom";
 import React, {useEffect} from "react";
 import * as actions from "../../podcasts/actions";
 import ComponentWithSpinner from "../../common/components/Spinner";
+import {FormattedMessage} from "react-intl";
 
 const DetallesDeUnPodcast = () => {
 
@@ -135,14 +136,20 @@ const DetallesDeUnPodcast = () => {
                         <div style={boxShadowStyle}>
                             <div style={innerDivStyle}>
                                 <div style={titleDivStyle}>
-                                    <div style={titleStyle}>Title</div>
+                                    <div style={titleStyle}>
+                                        <FormattedMessage id="project.app.DetallesDeUnPodcast.title"/>
+                                    </div>
                                 </div>
                                 <div style={dateAndDurationStyle}>
                                     <div style={infoDivStyle}>
-                                        <div style={dateStyle}>Date</div>
+                                        <div style={dateStyle}>
+                                            <FormattedMessage id="project.app.DetallesDeUnPodcast.date"/>
+                                        </div>
                                     </div>
                                     <div style={infoDivStyle}>
-                                        <div style={durationStyle}>Duration</div>
+                                        <div style={durationStyle}>
+                                            <FormattedMessage id="project.app.DetallesDeUnPodcast.duration"/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

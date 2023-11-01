@@ -1,3 +1,5 @@
+import {FormattedMessage} from "react-intl";
+
 const Episodes = ({ episodes }) => {
 
     // ESTILOS --------------------------------------------------------------------
@@ -26,7 +28,8 @@ const Episodes = ({ episodes }) => {
     // RETURN -----------------------------------------------------------------
     return (
         <div className="Componentenepisodes" style={containerStyle}>
-            <div className="Episodes" style={episodeTextStyle}>Episodes: {episodes}</div>
+            <div className="Episodes" style={episodeTextStyle}>
+                <FormattedMessage id="project.podcasts.Episodes.text"/> {episodes}</div>
         </div>
     );
 };

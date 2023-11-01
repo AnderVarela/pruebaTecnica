@@ -88,7 +88,6 @@ export async function getPodcastData(podcastId) {
 
             if (currentTime - lastFetchedTime < oneDay) {
                 // Si ha pasado menos de un día, devolver los datos almacenados
-                console.log("data obtenida de memoria local")
                 return storedPodcastData;
             }
         }
@@ -108,7 +107,6 @@ export async function getPodcastData(podcastId) {
 
         localStorage.setItem(`podcast_${podcastId}`, JSON.stringify(dataToStore));
 
-        console.log("data obtenida de servidor externo")
         return data;
     } catch (error) {
         return null;
