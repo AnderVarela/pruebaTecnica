@@ -7,6 +7,7 @@ async function obtenerPodcasts() {
         const data = await response.json();
         return data;
     } catch (error) {
+        console.error('Se ha producido un error al obtener la lista de podcasts:', error);
         return null;
     }
 }
@@ -109,6 +110,7 @@ export async function getPodcastData(podcastId) {
 
         return data;
     } catch (error) {
+        console.error('Se ha producido un error al obtener los detalles del podcast:', error);
         return null;
     }
 }
@@ -125,6 +127,7 @@ export async function getPodcastEpisodes(podcastId) {
         const data = await response.json(); // Obtenemos directamente el JSON
         return data;
     } catch (error) {
+        console.error('Se ha producido un error al obtener los episodios del podcast:', error);
         return null;
     }
 }
