@@ -62,9 +62,9 @@ const DetallesDeUnEpisodio = () => {
     if (episode != null && data != null && data.results[0].artistName) {
         return (
             <div className="Detallesdeunepisodio" style={containerStyle}>
-
                 <PodcastDetails imagen={episode.artworkUrl600} artista={data.results[0].artistName}
-                                nombre={episode.collectionName} podcastId={episode.collectionId}/>
+                                nombre={episode.collectionName} descripcion={data.results[0].primaryGenreName}
+                                podcastId={episode.collectionId}/>
 
                 <EpisodeReproductor trackName={episode.trackName} description={episode.description}
                                     episodeUrl={episode.episodeUrl}/>

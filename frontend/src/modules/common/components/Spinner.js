@@ -9,11 +9,11 @@ const ComponentWithSpinner = () => {
 
     const spinnerStyle = {
         border: '4px solid rgba(0, 0, 0, 0.1)',
-        borderTop: '4px solid #767676', /* Cambia el color del spinner aquí */
+        borderTop: '4px solid #767676',
         borderRadius: '50%',
         width: '50px',
         height: '50px',
-        animation: 'spin 1s linear infinite', /* Añade una animación para girar el spinner */
+        animation: 'spin 1s linear infinite',
     };
 
     return (

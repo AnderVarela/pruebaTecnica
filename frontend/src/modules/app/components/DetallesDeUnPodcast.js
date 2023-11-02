@@ -126,7 +126,7 @@ const DetallesDeUnPodcast = () => {
                     imagen={data.results[0].artworkUrl600}
                     nombre={data.results[0].collectionName}
                     artista={data.results[0].artistName}
-                    descripción={data.results[0].shortDescription}
+                    descripcion={data.results[0].primaryGenreName}
                 />
 
                 {(episodes != null && episodes.resultCount && episodes.results) ? (
